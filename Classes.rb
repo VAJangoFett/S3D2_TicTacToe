@@ -23,7 +23,7 @@ end
 
 class BoardCase
   # il initialise le tableau avec 9 cases de valeur "vide" que l'on pourra remplacer par la suite
-  attr_accessor :content
+  attr_accessor :content, :position
   def initialize(position)
     @position = position #string du style "A2" ou "B3"
     @content = " "

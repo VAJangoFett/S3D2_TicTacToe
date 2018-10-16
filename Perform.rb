@@ -1,18 +1,26 @@
 #on fait appel au fichier externe ClassPlayer qui contient toutes les classes
-require_relative 'ClassPlayer'
+
+require_relative 'Classes.rb'
+
+# on demande les noms des joueurs, ensuite on recupere dans board l'instance de classe Board, et on cree le Game avec les noms et le game
 
 def start_game
+  puts ""
   puts "quel est le prenom du joueur 1?"
+  print "> " 
   input1 = gets.chomp
+  puts ""
   puts "quel est le prenom du joueur 2?"
+  print "> " 
   input2 = gets.chomp
-  # on demande les noms des joueurs, ensuite on recupere dans board l'instance de classe Board, et on cree le Game avec les noms et le game
+  puts ""
   board = Board.new
   return game = Game.new(input1, input2, board)
 end
 
+# fonction d'affichage simple
+
 def show_board(board)
-  # fonction d'affichage simple
   puts
   puts "   1   2   3"
   puts "A  #{board.array_cases[0].content} | #{board.array_cases[1].content} | #{board.array_cases[2].content} "
@@ -23,22 +31,18 @@ def show_board(board)
   puts
 end
 
-def victory(plateau)
-    winning_positions = [["A1","A2","A3"],["B1", "B2", "B3"],["C1", "C2", "C3"],["A1", "B2", "C3"],["A3", "B2", "C1"],["A1", "B1", "C1"],["A2", "B2", "C2"],["A3", "B3", "C3"]]
-    winning_positions.each do |element|
-      return true if element.all? {|x| plateau.array_cases[x.to_i] == "X"}
-      return true if element.all? {|x| plateau.array_cases[x.to_i] == "O"}
-    end
-      return false
-  end
+# fonction permettant de définir sur le Board en cours si un des joueurs a aligné 3 de ses symboles
 
-#   if condition
-#     return true
-#   elsif cond
-#     return true
-#   else
-#   return false
+# def victory(plateau)
+#     winning_positions = [["A1","A2","A3"],["B1", "B2", "B3"],["C1", "C2", "C3"],["A1", "B2", "C3"],["A3", "B2", "C1"],["A1", "B1", "C1"],["A2", "B2", "C2"],["A3", "B3", "C3"]]
+#     winning_positions.each do |element|
+#       return true if element.all? {|x| plateau.array_cases[x.to_i] == "X"}
+#       return true if element.all? {|x| plateau.array_cases[x.to_i] == "O"}
+#     end
+#     return false
 # end
+
+# fonction qui définit selon les combo de position gagnante un gagnant
 
 def barbare_encore(plateau)
   if plateau.array_cases[0].content == "X" && plateau.array_cases[1].content == "X" && plateau.array_cases[2].content == "X" || plateau.array_cases[3].content == "X" && plateau.array_cases[4].content == "X" && plateau.array_cases[5].content == "X" || plateau.array_cases[6].content == "X" && plateau.array_cases[7].content == "X" && plateau.array_cases[8].content == "X" || plateau.array_cases[0].content == "X" && plateau.array_cases[3].content == "X" && plateau.array_cases[6].content == "X" || plateau.array_cases[1].content == "X" && plateau.array_cases[4].content == "X" && plateau.array_cases[7].content == "X" || plateau.array_cases[2].content == "X" && plateau.array_cases[5].content == "X" && plateau.array_cases[8].content == "X" || plateau.array_cases[0].content == "X" && plateau.array_cases[4].content == "X" && plateau.array_cases[8].content == "X" || plateau.array_cases[2].content == "X" && plateau.array_cases[4].content == "X" && plateau.array_cases[6].content == "X"
@@ -52,11 +56,12 @@ def barbare_encore(plateau)
   end
 
 end
+
+# fonction de jeu prenant en entrée une position, transformant ensuite les Broad cases (array_cases) en "X" ou en "O" selon le joueur et testant à chaque ajout si le résultat est un win et à la fin des 9 tours d'une partie déclare un match nul
+
 def play(plateau, joueur1, joueur2)
   count_turn = 0
   game_run = true
-
-  #while game_run
 
     while game_run
       if count_turn.even?
@@ -73,10 +78,8 @@ def play(plateau, joueur1, joueur2)
           elsif  barbare_encore(plateau) || count_turn == 9
             game_run = false
           end
-          # puts count_turn
-
         else
-          puts "case prise, tentative de triche retente sans tricher cette fois"
+          puts "T'as voulu tricher, désolé : Not on my watch !"
         end
 
       else
@@ -90,19 +93,11 @@ def play(plateau, joueur1, joueur2)
            if count_turn == 9 || barbare_encore(plateau)
             game_run = false
           end
-          # puts count_turn
         else
-          puts "case prise, tentative de triche retente sans tricher cette fois"
+          puts "T'as voulu tricher, désolé : Not on my watch !"
         end
-    #   puts "#{joueur2.first_name}, a toi de jouer"
-    #   # input = barbare_function.to_i
-    #   plateau.array_cases[input].content = "O"
-    #   show_board(plateau)
-    #   count_turn += 1
       end
     end
-
-  #end
 end
 
 def barbare_function(input)
@@ -126,19 +121,17 @@ def barbare_function(input)
       elsif input == "C3"
     return "8"
   else
-    puts "mauvaise entree, reesayer"
-    # barbare_function
+    puts " Mauvaise entree, reesaye !"
   end
 end
 
 def perform
-  # on commence par appeller start_game
+  # on commence par appeller start_game que l'on stock dans la variable my_game (jeu n°x)
   my_game = start_game
-  # affichage jeu
+  # affichage jeu sur un tableau fait de strings
   show_board(my_game.board)
-  # facultatif ? board.all_cases
-  play(my_game.board, my_game.array_players[0], my_game.array_players[1])
 
+  play(my_game.board, my_game.array_players[0], my_game.array_players[1])
   # my_game.board.array_cases[0].content = "X"
   show_board(my_game.board)
 

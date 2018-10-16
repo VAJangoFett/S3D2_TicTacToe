@@ -4,7 +4,7 @@ class Player
   def initialize(first_name, symbol)
     @first_name = first_name
     @symbol = symbol
-    puts "#{first_name} create with #{symbol}"
+    puts "#{first_name} sera les #{symbol}"
   end
 end
 
@@ -36,8 +36,8 @@ class Game
   def initialize(first_name1, first_name2, board)
     @board = board
     #on initialise les players avec les signes x et o
-    player1 = Player.new(first_name1, "x")
-    player2 = Player.new(first_name2, "o")
+    player1 = Player.new(first_name1, "X")
+    player2 = Player.new(first_name2, "O")
     #tableau des joueurs, peut etre a supprimer
     @array_players = [player1, player2]
     #nombre de tour pour finir le jeu apres 9 coups, current player pour definir qui joue
